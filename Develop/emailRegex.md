@@ -43,6 +43,8 @@ In this tutorial, I will be showing you how to use the regular expression below 
 : *example: `\w+$`*
 : The `$` matches the end of the string, or the end of a line if the multiline flag `(m)` is enabled.  This matches a position, not a character.
 
+[Back to Top](#table-of-contents)
+
 ---
 
 ***In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` notice we have a `^`, which means we are looking for the character set `([a-z0-9_\.-]+)` at the beginning of the string.***  
@@ -74,6 +76,8 @@ In this tutorial, I will be showing you how to use the regular expression below 
 `?` **Lazy**
 : *example: `b\w+?`*
 : Makes the preceding quantifier lazy, causing it to match as few characters as possible. By default, quantifiers are greedy, and will match as many characters as possible.
+
+[Back to Top](#table-of-contents)
 
 ---
 
@@ -148,6 +152,8 @@ An alternative is `[^]`, but it is not supported in all browsers.
 : Requires the `u` flag.
 : For a list of values, see this [MDN page](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Unicode_Property_Escapes).
 
+[Back to Top](#table-of-contents)
+
 ---
 
 ***In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`, the following character classes are used.***
@@ -191,6 +197,8 @@ Flags
 `s` **Dotall**
 : Dot (`.`) will match any character, including newline.
 
+[Back to Top](#table-of-contents)
+
 ---
 
 ***There are no flags in my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`***
@@ -216,6 +224,8 @@ Flags
 `(?:ABC)` **Non-Capturing Group**
 : *example: `(?:ha)+`*
 : Groups multiple tokens together without creating a capture group.
+
+[Back to Top](#table-of-contents)
 
 ---
 
@@ -256,6 +266,8 @@ Negative lookarounds specify a group that can NOT match before or after the patt
 : *example: `\d(?<!px)`*
 : Specifies a group that can not match before the main expression (if it matches, the result is discarded).
 
+[Back to Top](#table-of-contents)
+
 ---
 
 ***My expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` has 0 lookaround.***
@@ -283,6 +295,8 @@ $` **Before Match**
 
 `\n` **Escaped Characters**
 : For convenience, these escaped characters are supported in the Replace string in RegExr: `\n`, `\r`, `\t`, `\\`, and unicode escapes `\uFFFF`. This may vary in your deploy environment.
+
+[Back to Top](#table-of-contents)
 
 ---
 
@@ -336,6 +350,8 @@ Escape sequences can be used to insert reserved, special, and unicode characters
 `\0` **Null**
 : Matches a NULL character (char code 0).
 
+[Back to Top](#table-of-contents)
+
 ---
 
 ***My expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` makes use of the escaped character dot (`\.`)***
@@ -360,6 +376,8 @@ Following the second string, look for a dot.
 
 5. `([a-z\.]{2,6})`
 Following the dot, look for a string of length 2-6 characters and it may contain letters or dots.
+
+[Back to Top](#table-of-contents)
 
 ## Author
 
