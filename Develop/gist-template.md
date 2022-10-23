@@ -16,17 +16,16 @@ In this tutorial, I will be showing you how to use the regular expression below 
 - [Character Classes](#character-classes)
 - [Flags](#flags)
 - [Grouping and Capturing](#grouping-and-capturing)
-- [Bracket Expressions](#bracket-expressions)
-- [Greedy and Lazy Match](#greedy-and-lazy-match)
-- [Boundaries](#boundaries)
-- [Back-references](#back-references)
-- [Look-ahead and Look-behind](#look-ahead-and-look-behind)
+- [Lookaround](#lookaround)
+- [Substitution](#substitution)
+- [Escaped Characters](#escaped-characters)
+- [Final Explanation](#final-explanation)
 
 ## Regex Components
 
 ### Anchors
 
-Anchors are unique in that they match a position within a string, not a character.
+*Anchors are unique in that they match a position within a string, not a character.*
 
 `\B` **Not Word Boundary**
  : *example: `s\B`*
@@ -46,11 +45,15 @@ Anchors are unique in that they match a position within a string, not a characte
 
 ---
 
-In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` notice we have a `^`, which means we are looking for the character set `([a-z0-9_\.-]+)` at the beginning of the string.
+***In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` notice we have a `^`, which means we are looking for the character set `([a-z0-9_\.-]+)` at the beginning of the string.***  
 
-In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` notice we have a `$`, which means we are looking for the character set `([a-z\.]{2,6})` at the end of the string.
+***In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` notice we have a `$`, which means we are looking for the character set `([a-z\.]{2,6})` at the end of the string.***
+
+---
 
 ### Quantifiers
+
+*Quantifiers indicate that the preceding token must be matched a certain number of times. By default, quantifiers are greedy, and will match as many characters as possible.*
 
 `+` **Plus**
 : *example: `b\w+`*
@@ -74,7 +77,9 @@ In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` notice we h
 
 ---
 
-In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` there is a single quantifier at the end which is looking for 2-6 characters in length and those characters can be letters *a-z* and a *dot* (.).
+***In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` there is a single quantifier at the end which is looking for 2-6 characters in length and those characters can be letters *a-z* and a *dot* (.).***
+
+---
 
 ### OR Operator
 
@@ -83,6 +88,8 @@ In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` there is a 
 : Acts like a boolean OR. Matches the expression before or after the |. It can operate within a group, or on a whole expression. The patterns will be tested in order.
 
 ### Character Classes
+
+*Character classes match a character from a specific set. There are a number of predefined character classes and you can also define your own sets.*
 
 `[ABC]` **Character Set**
 : *example: `[aeiou]`*
@@ -143,7 +150,7 @@ An alternative is `[^]`, but it is not supported in all browsers.
 
 ---
 
-In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`, the following character classes are used.
+***In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`, the following character classes are used.***
 
 `[a-z0-9_\.-]`
 : This particular character set is looking for any letter a-z or any number 0-9 or an underscore(_), or a dot(.), or a hyphen(-).
@@ -153,6 +160,8 @@ In my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`, the follow
 
 `[a-z\.]`
 : The above character set is looking for any letter a-z or a dot(.).
+
+---
 
 ### Flags
 
@@ -182,37 +191,176 @@ Flags
 `s` **Dotall**
 : Dot (`.`) will match any character, including newline.
 
- ---
+---
 
-There are no flags in my expression that checks for email adresses.
+***There are no flags in my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`***
+
+---
 
 ### Grouping and Capturing
 
-Groups multiple tokens together and creates a capture group for extracting a substring or using a backreference.  Groups are encapsulated by a matching set of parenthesis ( ).  (ex. `(ha)+`).  In this example, the tokens 'h' and 'a' are grouped together.
-Looking at my expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` there are 3 groups.
+*Groups allow you to combine a sequence of tokens to operate on them together. Capture groups can be referenced by a backreference and accessed separately in the results.*
+
+`()` **Capturing Group**
+: *example: `(ABC)`*
+: Groups multiple tokens together and creates a capture group for extracting a substring or using a backreference.
+
+`(?<>)` **Named Capturing Group**
+: *example: `(?<name>ABC)`*
+: Creates a capturing group that can be referenced via the specified name.
+
+`\1` **Numeric Reference**
+: *example: `(\w)a\1`*
+: Matches the results of a capture group. For example \1 matches the results of the first capture group & \3 matches the third.
+
+`(?:ABC)` **Non-Capturing Group**
+: *example: `(?:ha)+`*
+: Groups multiple tokens together without creating a capture group.
+
+---
+
+***My expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` has 3 groups.***
 
 - `([a-z0-9_\.-]+)`
 
-  - In the above group, we are looking for a sequence of 1 or more characters in the preceeding [bracket expression](#bracket-expressions).
+  - In the above group, we are looking for a sequence of 1 or more characters in the preceeding [character set](#character-classes).
 
 - `([\da-z\.-]+)`
 
-  - In the above group, we are looking for a sequence of 1 or more characters in the preceeding [bracket expression](#bracket-expressions).
+  - In the above group, we are looking for a sequence of 1 or more characters in the preceeding [character set](#character-classes).
 
 - `([a-z\.]{2,6})`
 
-  - The above group contains a [bracket expression](#bracket-expressions) and a [quantifier](#quantifiers).
+  - The above group contains a [character set](#character-classes) and a [quantifier](#quantifiers).
 
-### Bracket Expressions
+---
 
-### Greedy and Lazy Match
+### Lookaround
 
-### Boundaries
+*Lookaround lets you match a group before (lookbehind) or after (lookahead) your main pattern without including it in the result.
+Negative lookarounds specify a group that can NOT match before or after the pattern.*
 
-### Back-references
+`(?=ABC)` **Positive Lookahead**
+: *example: `\d(?=px)`*
+: Matches a group after the main expression without including it in the result.
 
-### Look-ahead and Look-behind
+`(?!ABC)` **Negative Lookahead**
+: *example: `\d(?!px)`*
+: Specifies a group that can not match after the main expression (if it matches, the result is discarded).
+
+`(?<=ABC)` **Positive Lookbehind**
+: *example: `\d(?<=px)`*
+: Matches a group before the main expression without including it in the result.
+
+`(?<!ABC)` **Negative Lookbehind**
+: *example: `\d(?<!px)`*
+: Specifies a group that can not match before the main expression (if it matches, the result is discarded).
+
+---
+
+***My expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` has 0 lookaround.***
+
+---
+
+### Substitution
+
+*These tokens are used in a substitution string to insert different parts of the match.*
+
+`$&` **Match**
+: Inserts the matched text
+
+`$1` **Capture Group**
+: Inserts the results of the specified capture group. For example, $3 would insert the third capture group.
+
+$` **Before Match**
+: Inserts the portion of the source string that precedes the match.
+
+`$'` **After Match**
+: Inserts the portion of the source string that follows the match.
+
+`$$` **Escaped $**
+: Inserts a dollar sign character ($).
+
+`\n` **Escaped Characters**
+: For convenience, these escaped characters are supported in the Replace string in RegExr: `\n`, `\r`, `\t`, `\\`, and unicode escapes `\uFFFF`. This may vary in your deploy environment.
+
+---
+
+***My expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` has 0 substitutions.***
+
+---
+
+### Escaped Characters
+
+Escape sequences can be used to insert reserved, special, and unicode characters. All escaped characters begin with the \ character.
+
+`\+` **Reserved Characters**
+: The following characters have special meaning, and should be preceded by a `\` (backslash) to represent a literal character:
+`+*?^$\.[]{}()|/`
+: Within a character set, only `\`, `-`, and `]` need to be escaped.
+
+`\000` **Octal Escape**
+: Octal escaped character in the form `\000`. Value must be less than 255 (`\377`).
+
+`\xFF` **Hexadecimal Escape**
+: *example: `\xA9`*
+: Hexadecimal escaped character in the form `\xFF`.
+
+`\uFFFF` **Unicode Escape**
+: *example: `\u00A9`*
+: Unicode escaped character in the form `\uFFFF`
+
+`\u{FFFF}` **Extended Unicode Escape**
+: Unicode escaped character in the form `\u{FFFF}`. Supports a full range of unicode point escapes with any number of hex digits.
+: Requires the unicode flag (`u`).
+
+`\cI` **Control Character Escape**
+: *example: `\cI` matches TAB (char code 9).*
+: Escaped control character in the form `\cZ`. This can range from `\cA` (SOH, char code 1) to `\cZ` (SUB, char code 26).
+
+`\t` **Tab**
+: Matches a TAB character (char code 9).
+
+`\n` **Line Feed**
+: Matches a LINE FEED character (char code 10).
+
+`\v` **Vertical Tab**
+: Matches a VERTICAL TAB character (char code 11).
+
+`\f` **Form Feed**
+: Matches a FORM FEED character (char code 12).
+
+`\r` **Carriage Return**
+: Matches a CARRIAGE RETURN character (char code 13).
+
+`\0` **Null**
+: Matches a NULL character (char code 0).
+
+---
+
+***My expression `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/` makes use of the escaped character dot (`\.`)***
+
+---
+
+### Final Explanation
+
+`/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`
+
+1. `([a-z0-9_\.-]+)`
+Look for a string of length 1 or more that contains any combination of letters, digits, underscores, dots, or hyphens.
+
+2. `@`
+Look for the @ symbol following the previous string
+
+3. `([\da-z\.-]+)`
+Following the @ symbol, look for a second string of length 1 or more that contains any combination of digits, letters, hyphens, or dots.
+
+4. `\.`
+Following the second string, look for a dot.
+
+5. `([a-z\.]{2,6})`
+Following the dot, look for a string of length 2-6 characters and it may contain letters or dots.
 
 ## Author
 
-A short section about the author with a link to the author's GitHub profile (replace with your information and a link to your profile)
+[RelentlessNC](https://github.com/RelentlessNC)
